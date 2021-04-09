@@ -1,0 +1,11 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "domainrules"
+author = "Svyatoslav"
+author-email = "svyatka@gmail.com"
+home-page = "https://github.com/Svyat33/domain_rules"
+description-file = "README.md"
+
