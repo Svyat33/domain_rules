@@ -7,5 +7,6 @@ module = "domainrules"
 author = "Svyatoslav"
 author-email = "svyatka@gmail.com"
 home-page = "https://github.com/Svyat33/domain_rules"
+classifiers = [ "License :: OSI Approved :: MIT License",]
 description-file = "README.md"
 
