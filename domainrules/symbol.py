@@ -1,13 +1,18 @@
-from rules import NullRule, Rule
+from typing import Type
+
+from .baserule import BaseRule, Rule
 
 
-class Fileds(NullRule):
+class Fileds(BaseRule):
     symbol: str
     min_qty: int
 
+
 class SymbolRule(Rule):
-    fields = Fileds
+    fields: Type[BaseRule] = Fileds
 
     @property
     def calc_weight(self):
-        return self.bal if self.domain.name.count(self.symbol)>self.min_qty else 0
+        if self.domain.name.count(self.symbol) > self.min_qty:
+            return self.bal
+        return 0

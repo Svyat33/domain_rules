@@ -1,17 +1,22 @@
-from typing import List
+from typing import List, Type
 
-from rules import NullRule, Rule
+from .baserule import BaseRule, Rule
 
 
-class Fields(NullRule):
+class Fields(BaseRule):
     subwords: List[str]
 
 
 class SubstringRule(Rule):
-    '''Правило'''
-    fields = Fields
+    """Правило"""
+
+    fields: Type[BaseRule] = Fields
 
     @property
     def calc_weight(self):
-        return self.bal if not self.subwords is None and any(
-            [word in self.domain.name for word in self.subwords]) else 0
+        return (
+            self.bal
+            if self.subwords is not None
+            and any([word in self.domain.name for word in self.subwords])
+            else 0
+        )

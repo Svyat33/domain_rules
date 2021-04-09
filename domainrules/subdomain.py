@@ -1,12 +1,15 @@
-from rules import NullRule, Rule
+from typing import Type
+
+from .baserule import BaseRule, Rule
 
 
-class Fileds(NullRule):
+class Fileds(BaseRule):
     min_qty: int
 
+
 class SubdomainRule(Rule):
-    fields = Fileds
+    fields: Type[BaseRule] = Fileds
 
     @property
     def calc_weight(self):
-        return self.bal if self.domain.name.count('.')>self.min_qty else 0
+        return self.bal if self.domain.name.count(".") > self.min_qty else 0

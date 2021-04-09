@@ -1,22 +1,25 @@
+from typing import Type
+
 from Levenshtein._levenshtein import distance
 from pydantic import validator
 
-from rules import NullRule, gt0, Rule
+from validators import gt0
+from .baserule import BaseRule, Rule
 
 
-class Fields(NullRule):
+class Fields(BaseRule):
     possible: int
     base_name: str
-    _gt0_possible = validator('possible', allow_reuse=True)(gt0)
-
+    _gt0_possible = validator("possible", allow_reuse=True)(gt0)
 
 
 class LevensteinRule(Rule):
-    fields = Fields
+    fields: Type[BaseRule] = Fields
 
     @property
     def calc_weight(self):
-        prepared_domain_name = self.domain.name.replace(".",'').replace("-",'')
-        prepared_base_name = self.base_name.replace(".", '').replace("-", '')
-        return self.bal if distance(prepared_domain_name, prepared_base_name) < self.possible else 0
-
+        domain_name = self.domain.name.replace(".", "").replace("-", "")
+        base_name = self.base_name.replace(".", "").replace("-", "")
+        if distance(domain_name, base_name) < self.possible:
+            return self.bal
+        return 0

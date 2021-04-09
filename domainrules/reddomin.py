@@ -1,12 +1,12 @@
-'''
+"""
 6.GreenDomain  удаляет все записи с субдоменами от указаного в парметрах
 домена второго уровня. тоесть Greendomain amazon.com удалит server2.amazon.com
  и любые другие субдомены из списка до начала проверки на синтаксис.
-'''
-from rules import NullRule, Rule
+"""
+from .baserule import BaseRule, Rule
 
 
-class Fields(NullRule):
+class Fields(BaseRule):
     domain_name: str
 
 

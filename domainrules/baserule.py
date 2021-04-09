@@ -1,15 +1,22 @@
+from typing import Type
+
 from pydantic import BaseModel, validator
 
-from domainrules import gt0, Domain
+from domainrules import Domain
+from .validators import gt0
 
 
 class BaseRule(BaseModel):
     bal: int = 0
-    _gt0_bal = validator('bal', allow_reuse=True)(gt0)
+    _gt0_bal = validator("bal", allow_reuse=True)(gt0)
+
+
+class NullRuleFields(BaseModel):
+    bal: int = 0
 
 
 class Rule(Domain):
-    fields: BaseModel = BaseRule
+    fields: Type[BaseModel] = NullRuleFields
 
     def __init__(self, domain: Domain):
         self.domain = domain

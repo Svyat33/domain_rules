@@ -1,24 +1,15 @@
 import re
+from typing import Type
 
-from pydantic import validator
-
-from rules import Rule, NullRule
+from .baserule import BaseRule, Rule
 
 
-class RegexpFields(NullRule):
+class RegexpFields(BaseRule):
     regexp: str
-
-    @validator('regexp')
-    def reg_is_valid(cls, val):
-        try:
-            a = re.compile(val)
-            return val
-        except:
-            raise ValueError("Incorrect regexp")
 
 
 class RegexpRule(Rule):
-    fields = RegexpFields
+    fields: Type[BaseRule] = RegexpFields
 
     def set_rules(self, **kwargs):
         super().set_rules(**kwargs)
