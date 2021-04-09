@@ -5,17 +5,7 @@ __version__ = "0.1.3"
 from typing import Type
 
 from pydantic import BaseModel
-
 from .baserule import NullRuleFields
-from .regexp import RegexpRule
-from .substring import SubstringRule
-from .symbol import SymbolRule
-from .levenstein import LevensteinRule
-from .numbers import NumbersRule
-from .greendomain import GreenDomainRule
-from .reddomin import RedDomainRule
-from .subdomain import SubdomainRule
-from .domainemul import DomainEmulRule
 
 
 class Domain:
@@ -74,6 +64,17 @@ class NewRule:
         {"type": "SubstringRule", "bal": 25,
             "subwords": ["alpha", "abank", "alpha-support"]}
         """
+
+        from .regexp import RegexpRule
+        from .substring import SubstringRule
+        from .symbol import SymbolRule
+        from .levenstein import LevensteinRule
+        from .numbers import NumbersRule
+        from .greendomain import GreenDomainRule
+        from .reddomin import RedDomainRule
+        from .subdomain import SubdomainRule
+        from .domainemul import DomainEmulRule
+
         if data.get("type") in globals():
             # Есть такой класс или переменная
             obj = globals()[data["type"]]

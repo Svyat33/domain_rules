@@ -1,8 +1,8 @@
 import re
 from typing import Type
 
-from .baserule import BaseRule
 from . import Rule
+from .baserule import BaseRule
 
 
 class RegexpFields(BaseRule):
