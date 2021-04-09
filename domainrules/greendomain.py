@@ -7,7 +7,8 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from .baserule import BaseRule, Rule
+from .baserule import BaseRule
+from . import Rule
 
 
 class Fields(BaseRule):

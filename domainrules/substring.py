@@ -1,6 +1,7 @@
 from typing import List, Type
 
-from .baserule import BaseRule, Rule
+from .baserule import BaseRule
+from . import Rule
 
 
 class Fields(BaseRule):

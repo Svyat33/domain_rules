@@ -1,8 +1,12 @@
 """Let's describe alowed rules!"""
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
-from .baserule import Rule
+from typing import Type
+
+from pydantic import BaseModel
+
+from .baserule import NullRuleFields
 from .regexp import RegexpRule
 from .substring import SubstringRule
 from .symbol import SymbolRule
@@ -12,19 +16,6 @@ from .greendomain import GreenDomainRule
 from .reddomin import RedDomainRule
 from .subdomain import SubdomainRule
 from .domainemul import DomainEmulRule
-
-_ = [
-    Rule,
-    RegexpRule,
-    SubstringRule,
-    SymbolRule,
-    LevensteinRule,
-    NumbersRule,
-    GreenDomainRule,
-    RedDomainRule,
-    SubdomainRule,
-    DomainEmulRule,
-]
 
 
 class Domain:
@@ -39,6 +30,38 @@ class Domain:
 
     def __repr__(self):
         return f"<Domain> {self.name}"
+
+
+class Rule(Domain):
+    fields: Type[BaseModel] = NullRuleFields
+
+    def __init__(self, domain: Domain):
+        self.domain = domain
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}> for {self.domain}"
+
+    @property
+    def name(self):
+        return self.domain.name
+
+    @classmethod
+    def validate(cls, **kwargs):
+        return cls.fields.validate(kwargs)
+
+    def set_rules(self, **kwargs):
+        for k in self.validate(**kwargs).dict():
+            setattr(self, k, kwargs[k])
+        return self
+
+    @property
+    def calc_weight(self):
+        # Зная домен и правила можно рассчитать добавляемый штрафной вес
+        return self.bal
+
+    @property
+    def weight(self):
+        return self.domain.weight + self.calc_weight
 
 
 class NewRule:
@@ -60,3 +83,19 @@ class NewRule:
                     return obj(domain).set_rules(**data)
 
         return Rule(domain).set_rules(bal=0)
+
+
+__all__ = [
+    "Domain",
+    "NewRule",
+    "Rule",
+    "RegexpRule",
+    "SubstringRule",
+    "SymbolRule",
+    "LevensteinRule",
+    "NumbersRule",
+    "GreenDomainRule",
+    "RedDomainRule",
+    "SubdomainRule",
+    "DomainEmulRule",
+]

@@ -4,7 +4,8 @@ from Levenshtein._levenshtein import distance
 from pydantic import validator
 
 from validators import gt0
-from .baserule import BaseRule, Rule
+from .baserule import BaseRule
+from . import Rule
 
 
 class Fields(BaseRule):
