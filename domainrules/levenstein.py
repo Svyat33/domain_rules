@@ -3,7 +3,7 @@ from typing import Type
 from Levenshtein._levenshtein import distance
 from pydantic import validator
 
-from validators import gt0
+from .validators import gt0
 from .baserule import BaseRule
 from . import Rule
 
